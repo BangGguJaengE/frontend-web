@@ -29,9 +29,141 @@
 }
 
 .upload-container{
-    width: 38em;
-    height: 40rem;
-    background-color: #fff;
+    margin-bottom: 10em;
+    width: 37em;
+    height: 70em;
+    background-color: rgba(255, 255, 255, 0.5); 
     margin-top: 4em;
     border-radius: 36px;
+    align-items: center;
+    opacity: 0.9;
+    display:flex;
+    // align-content: center;
+    justify-content: center;    
+    flex-direction: column;
+    filter: drop-shadow(0 4px 20px rgba(24, 23, 37, 0.1));
+}
+
+.upload-button{
+    width: 42em;
+    height: 28em;
+    background-color:#Ffffff;
+    border-radius: 16px;
+    border: solid 1px transparent;
+    // justify-content: center; 
+    // align-content: center;
+}
+
+.upload-icon-image-container{
+    align-self:center;
+    align-content: center;
+    margin: 0 auto;
+    width: 8rem;
+    height: 8rem;
+}
+
+.upload-icon-image{
+    align-self:center;
+    justify-self: center;
+    width: 6rem;
+}
+
+.inner-button{
+    background-color:#9775FA;
+    border-radius: 16px;
+    width: 15rem;
+    height: 5rem;
+    margin: 0 auto;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.inner-button-text{
+color: #fff;
+font-weight: 700;
+font-size:20px;
+}
+
+
+.title-container {
+    width: 37em;
+    // background-color: red;
+    margin: 10px;
+}
+
+.title-text{
+    margin-left:25px;
+    font-size:15px;
+    font-weight:500;
+}
+
+.theme-buttons-container{
+
+    
+}
+
+.theme-four-buttons-container{
+    display:flex;
+    flex-direction: row;
+}
+
+.theme-button-container{
+    display:flex;
+    flex-direction: column;
+    filter: drop-shadow(0 4px 20px rgba(24, 23, 37, 0.1));
+    // background-color:blue;
+    margin:3px;
+}
+.theme-button-img-container{
+    width: 7em;
+    height: 7em;
+    border-radius: 8px 8px 0 0;
+}
+
+.theme-button-text-container{
+    width: 7em;
+    height: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 0 8px 8px;
+    background-color:#Ffffff;
+
+}
+
+.theme-button-text{
+    color:#868E96;
+    font-size:15px;
+}
+
+.text-input{
+    border-radius:16px;
+    border: solid 1px transparent;
+    min-height: 44px;
+    width: 26em;
+    filter: drop-shadow(0 4px 20px rgba(24, 23, 37, 0.1));
+    margin-bottom: 2em;
+    padding:10px;
+    font-size:14px;
+    resize:none;
+    // font-color: #C1C9D0;
+}
+
+.text-input:focus{
+    outline:none;
+}
+
+.generate-button{
+    border-radius:15px;
+    margin-top:1em;
+    margin-bottom:2em;
+    border: solid 1px transparent;
+    width: 32em;
+    height: 54px;
+    background-color: #CED4DA;
+    filter: drop-shadow(0 4px 20px rgba(24, 23, 37, 0.1));
+    display:flex;
+    align-items: center;
+    justify-content: center;
 }
