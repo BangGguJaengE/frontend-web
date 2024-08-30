@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import "../css/container.scss";
-import bg from "../img/bg-img.png";
 import logo from "../img/home-icon.png";
 import uploadIcon from "../img/gallery-icon.png";
 import modernImg from "../img/modern-img.png";
@@ -14,7 +13,19 @@ import planeriorImg from "../img/planterior-img.png";
 import brightImg from "../img/bright-img.png";
 
 const Main = () => {
+  const selectFile = useRef("");
+  const [imgFile, setImgFile] = useState("");
   //   const [prompt, setPrompt] = useState("");
+
+  const saveImgFile = () => {
+    const file = selectFile.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImgFile(reader.result);
+    };
+  };
+
   return (
     <>
       <div className="container">
@@ -26,7 +37,10 @@ const Main = () => {
           <span style={{ color: "#9775FA" }}>빵꾸집꾸</span>에게 맡겨보세요!
         </div>
         <div className="upload-container">
-          <button className="upload-button">
+          <button
+            className="upload-button"
+            onClick={() => selectFile.current.click()}
+          >
             <div className="upload-icon-image-container">
               <img
                 className="upload-icon-image"
@@ -34,6 +48,7 @@ const Main = () => {
                 alt="uploadIcon"
               />
             </div>
+            <input type="file" ref={selectFile} />
             <div className="inner-button">
               <div className="inner-button-text">방 사진 올리기</div>
             </div>
@@ -138,9 +153,11 @@ const Main = () => {
             className="text-input"
             placeholder="ex. 우울한 기분이 들지 않도록 밝은 분위기로 바꿔 줘."
           />
-          <div className="generate-button">
-            <div className="inner-button-text">생성하기</div>
-          </div>
+          <Link to="/complete">
+            <button className="generate-button">
+              <div className="inner-button-text">생성하기</div>
+            </button>
+          </Link>
         </div>
       </div>
     </>
