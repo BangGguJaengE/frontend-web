@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import "../css/container.scss";
 import "../css/complete.scss";
-import roomImage from "../img/room-img.jpeg";
-import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import Plus from "../components/Plus";
 
 const ToggleContainer = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const ToggleSwitch = styled.input.attrs({ type: "checkbox" })`
 `;
 
 const CloseIcon = styled.div`
-  font-size: 24px;
+  font-size: 35px;
   cursor: pointer;
 `;
 
@@ -26,24 +26,6 @@ const ImageContainer = styled.div`
   background-image: url(${(props) => props.imageUrl});
   background-size: cover;
   background-position: center;
-  background-color: red;
-`;
-
-const PlusButton = styled.div`
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background-color: #9775fa;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-  top: ${(props) => props.top};
-  left: ${(props) => props.left};
-  display: ${(props) => (props.show ? "flex" : "none")};
 `;
 
 const ProductList = styled.div`
@@ -59,6 +41,23 @@ const ProductItem = styled.div`
   padding-bottom: 15px;
   border-bottom: 1px solid #ccc;
 `;
+
+// const PlusButton = styled.div`
+//   position: absolute;
+//   width: 30px;
+//   height: 30px;
+//   background-color: #9775fa;
+//   border-radius: 50%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   color: white;
+//   font-size: 24px;
+//   cursor: pointer;
+//   top: ${(props) => props.top};
+//   left: ${(props) => props.left};
+//   display: ${(props) => (props.show ? "flex" : "none")};
+// `;
 
 const ProductImage = styled.img`
   width: 80px;
@@ -92,15 +91,18 @@ const DetailButton = styled.button`
 `;
 
 const CompleteScreen = () => {
-  //   const { params } = route;
   const location = useLocation();
+  const navigate = useNavigate();
+  const { generatedImageUrl, result } = location.state.response;
   const [showPlusButtons, setShowPlusButtons] = useState(true);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const navigate = useNavigate();
-  //   const { generatedImageUrl } = useParams();
-  const { generatedImageUrl, result } = location.state.response;
+  const [a, setA] = useState(<></>);
 
-  console.log(generatedImageUrl);
+  // console.log(result);
+  const handlePlusButtonClick = () => {
+    setSelectedProducts(products);
+  };
+
   const products = [
     {
       id: 1,
@@ -122,19 +124,54 @@ const CompleteScreen = () => {
     },
   ];
 
-  const handlePlusButtonClick = () => {
-    setSelectedProducts(products);
+  const renderItems = (items, label) => {
+    return (
+      <ProductList>
+        <h3>{label}</h3>
+        {items.map((item, idx) => (
+          <ProductItem key={idx}>
+            <ProductImage src={item.imageUrl} alt={item.title} />
+            <ProductInfo>
+              <ProductName>{item.title}</ProductName>
+              <ProductPrice>{item.price}원</ProductPrice>
+            </ProductInfo>
+            <DetailButton
+              onClick={() => window.open(item.productUrl, "_blank")}
+            >
+              자세히
+            </DetailButton>
+          </ProductItem>
+        ))}
+      </ProductList>
+
+      // <FlatListContainer>
+      //   <ListTitleContainer>
+      //     <ListTitleText>{label}</ListTitleText>
+      //   </ListTitleContainer>
+      //   <FlatList
+      //     data={items}
+      //     renderItem={renderItem}
+      //     keyExtractor={(item) => item.productUrl}
+      //   />
+      // </FlatListContainer>
+    );
   };
+
+  //   const renderItem = ({ item }) => {
+  //     const title = item.title.replace(/<\/?b>/g, "");
+  //     const price = formatPrice(item.price) + "원";
+  //     const imageUrl = item.imageUrl;
+  //     const url = item.productUrl;
 
   return (
     <div className="container">
       <div className="top-container">
         <div className="topnav-container">
           <ToggleContainer>
-            <ToggleSwitch
+            {/* <ToggleSwitch
               checked={showPlusButtons}
               onChange={() => setShowPlusButtons(!showPlusButtons)}
-            />
+            /> */}
             <CloseIcon
               onClick={() => {
                 navigate("/");
@@ -144,34 +181,30 @@ const CompleteScreen = () => {
             </CloseIcon>
           </ToggleContainer>
         </div>
-        <ImageContainer imageUrl={generatedImageUrl}>
-          <PlusButton
-            top="20%"
-            left="60%"
-            show={showPlusButtons}
-            onClick={handlePlusButtonClick}
-          >
-            +
-          </PlusButton>
-          <PlusButton
-            top="40%"
-            left="30%"
-            show={showPlusButtons}
-            onClick={handlePlusButtonClick}
-          >
-            +
-          </PlusButton>
-          <PlusButton
-            top="60%"
-            left="50%"
-            show={showPlusButtons}
-            onClick={handlePlusButtonClick}
-          >
-            +
-          </PlusButton>
+        <ImageContainer imageUrl={generatedImageUrl.url}>
+          {result.map((el, index) => {
+            console.log(el);
+            return (
+              <Plus
+                key={index}
+                style={{
+                  left: `${el.coordinate[0]}px`,
+                  top: `${el.coordinate[1] / 1.8}px`,
+                  position: "absolute",
+                }}
+                click={() => {
+                  console.log("items");
+                  // console.log(el);
+                  setA(renderItems(el.items, el.label));
+                  handlePlusButtonClick(el.items, el.label);
+                }}
+              />
+            );
+          })}
         </ImageContainer>
       </div>
-      {selectedProducts.length > 0 && (
+      {a}
+      {/* {selectedProducts.length > 0 && (
         <ProductList>
           {selectedProducts.map((product) => (
             <ProductItem key={product.id}>
@@ -186,7 +219,7 @@ const CompleteScreen = () => {
             </ProductItem>
           ))}
         </ProductList>
-      )}
+      )} */}
     </div>
   );
 };
