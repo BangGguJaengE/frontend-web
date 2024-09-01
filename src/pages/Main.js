@@ -55,28 +55,84 @@ const Main = () => {
 
   const handleGenerate = async () => {
     if (!imgFile || !prompt) {
-      alert("Please select an image and enter a prompt.");
+      alert("이미지를 입력하고 프롬프트를 작성해주세요.");
       return;
     }
 
+    const byteString = atob(imgFile.split(",")[1]);
+    const mimeString = imgFile.split(",")[0].split(":")[1].split(";")[0];
+
+    // Base64를 바이너리 데이터로 변환
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    // Blob 객체 생성
+    const blob = new Blob([ab], { type: mimeString });
+
     const formData = new FormData();
-    formData.append(
-      "body",
-      JSON.stringify({
-        prompt: `${prompt}. 나는 ${selectedTheme}한 스타일을 원해.`,
-      })
+    formData.append("file", blob);
+
+    console.log(blob);
+
+    const resData = await axios.post(
+      "http://3.39.236.242:3000/api/interior/upload",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
 
-    formData.append("file", selectFile.current.files[0]);
+    const imgUrl = resData.data.url;
+
+    // const file = selectFile.current.files[0];
+    const file = imgFile;
+    // console.log(file);
+    // console.log(imgFile);
+
+    if (!file) {
+      alert("파일이 선택되지 않았습니다. 파일을 선택해주세요.");
+      return;
+    }
+
+    // const formData = new FormData();
+
+    // const p = new Blob([
+    //   JSON.stringify({
+    //     prompt: `${prompt}. 나는 ${selectedTheme}한 스타일을 원해.`,
+    //   }),
+    //   { type: "multipart/form-data" },
+    // ]);
+
+    // formData.append("body", p);
+
+    // formData.append("file", imgFile);
+
+    // formData.append(
+    //   "body",
+    //   JSON.stringify({
+    //     prompt: `${prompt}. 나는 ${selectedTheme}한 스타일을 원해.`,
+    //   })
+    // );
+
+    // formData.append("file", file);
+    // console.log(formData);
+    // formData.append("file", {
+    //   name: file.name,
+    //   type: file.type,
+    //   uri: URL.createObjectURL(file), // 웹에서는 실제로 'uri'를 사용하지 않지만, 형식 유지 차원에서 추가
+    // });
 
     try {
       const res = await axios.post(
-        "http://3.39.236.242:3000/api/interior/test",
-        formData,
+        "http://3.39.236.242:3000/api/interior/generate",
         {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          img_url: imgUrl,
+          prompt: `${prompt}. 나는 ${selectedTheme}한 스타일을 원해.`,
         }
       );
 
@@ -85,7 +141,7 @@ const Main = () => {
       // navigate("/complete", { state: { response } });
     } catch (err) {
       console.error("Error:", err.response ? err.response.data : err.message);
-      alert("Failed to upload image.");
+      alert("이미지 업로드에 실패했습니다.");
     }
   };
 
