@@ -129,7 +129,7 @@ const Main = () => {
 
     try {
       const res = await axios.post(
-        "http://3.39.236.242:3000/api/interior/generate",
+        "http://3.39.236.242:3000/api/interior/test",
         {
           img_url: imgUrl,
           prompt: `${prompt}. 나는 ${selectedTheme}한 스타일을 원해.`,
@@ -138,7 +138,7 @@ const Main = () => {
 
       const response = res.data;
       console.log(response);
-      // navigate("/complete", { state: { response } });
+      navigate("/complete", { state: { response } });
     } catch (err) {
       console.error("Error:", err.response ? err.response.data : err.message);
       alert("이미지 업로드에 실패했습니다.");
