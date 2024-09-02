@@ -183,10 +183,24 @@ const Main = () => {
               className="image-preview"
               onClick={() => selectFile.current.click()}
             >
+              {/* style=
+              {{
+                width: "100%",
+                height: "auto",
+                borderRadius: "16px",
+                overflow: "hidden",
+                cursor: "pointer",
+              }} */}
               <img
+                className="input-img"
                 src={imgFile}
                 alt="Selected"
-                style={{ width: "100%", borderRadius: "16px" }}
+                // style={{
+                //   width: "100%",
+                //   height: "auto",
+                //   borderRadius: "16px",
+                //   objectFit: "cover",
+                // }}
               />
               <input
                 type="file"
