@@ -12,12 +12,76 @@ import animationImg from "../img/animation-img.png";
 import planeriorImg from "../img/planterior-img.png";
 import brightImg from "../img/bright-img.png";
 import axios from "axios";
+import styled from "styled-components";
+
+
+const MainContainer = styled.div`
+  flex: 1;
+  justify-content: center;
+`;
+
+const ImageBackgroundContainer = styled.div`
+  flex: 1;
+  justify-content: center;
+`;
+
+
+const LoadingContainer = styled.div`
+  background-color: #ffffff;
+  margin: 40px;
+  width: 100%;
+  height: 300px;
+  opacity: 0.4;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+`;
+
+
+//로딩 요소
+const SpinnerContainer = styled.div`
+  height: 115px;
+  width: 100px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+`;
+
+const SpinnerImageContainer = styled.div`
+  height: 60px;
+  width: 60px;
+  object-fit: contain;
+`;
+
+const SpinnerText = styled.div`
+  font-size: 18px;
+  margin: 10px;
+`;
+
+
+// const Loading = () => (
+//   <MainContainer>
+//     <ImageBackgroundContainer
+//     src={"../img/bg-img.png"}
+//     >
+//       <LoadingContainer>
+//         <SpinnerContainer>
+//           <SpinnerImageContainer
+//               src={"../img/loading-spinner1.gif"}
+//           ></SpinnerImageContainer>
+//           <SpinnerText>생성 중...👀</SpinnerText>
+//         </SpinnerContainer>
+//       </LoadingContainer>
+//     </ImageBackgroundContainer>
+//   </MainContainer>
+// );
 
 const Main = () => {
   const selectFile = useRef("");
   const [imgFile, setImgFile] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedTheme, setSelectedTheme] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const navigate = useNavigate();
 
@@ -58,6 +122,7 @@ const Main = () => {
       alert("이미지를 입력하고 프롬프트를 작성해주세요.");
       return;
     }
+    setIsLoading(true); // 로딩 상태 시작
 
     const byteString = atob(imgFile.split(",")[1]);
     const mimeString = imgFile.split(",")[0].split(":")[1].split(";")[0];
@@ -129,21 +194,31 @@ const Main = () => {
 
     try {
       const res = await axios.post(
-        "http://3.39.236.242:3000/api/interior/generate",
+        "http://3.39.236.242:3000/api/interior/test",
         {
           img_url: imgUrl,
           prompt: `${prompt}. 나는 ${selectedTheme}한 스타일을 원해.`,
         }
       );
-
+      setIsLoading(false);
       const response = res.data;
       console.log(response);
       navigate("/complete", { state: { response } });
     } catch (err) {
+      setIsLoading(false);
       console.error("Error:", err.response ? err.response.data : err.message);
       alert("이미지 업로드에 실패했습니다.");
     }
-  };
+    if (isLoading) {
+      return (
+        <div className="loading-screen">
+          <SpinnerContainer>
+            <SpinnerImageContainer src={"../img/loading-spinner1.gif"} />
+            <SpinnerText>로딩 중...👀</SpinnerText>
+          </SpinnerContainer>
+        </div>
+      );
+    }
 
   return (
     <>
@@ -318,7 +393,13 @@ const Main = () => {
             onChange={(e) => setPrompt(e.target.value)}
           />
           {/* <Link to="/complete"> */}
-          <button className="generate-button" onClick={handleGenerate}>
+          <button
+            className="generate-button"
+            onClick={handleGenerate}
+            style={{
+              backgroundColor: imgFile && prompt ? "#9775FA" : "#CED4DA",
+            }}
+          >
             <div className="inner-button-text">생성하기</div>
           </button>
           {/* </Link> */}
