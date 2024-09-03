@@ -146,7 +146,7 @@ const Main = () => {
 
     try {
       const res = await axios.post(
-        "http://3.39.236.242:3000/api/interior/test/generate",
+        "http://3.39.236.242:3000/api/interior/generate",
         {
           img_url: imgUrl,
           prompt: `${prompt}. 나는 ${selectedTheme}한 스타일을 원해.`,
