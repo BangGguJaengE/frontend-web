@@ -125,10 +125,9 @@ const CompleteScreen = () => {
   const products = [];
 
   const renderItems = (items, label) => {
-    return (
-      <ProductList>
-        <h3>{label}</h3>
-        {items.map((item, idx) => {
+    const productItems =
+      items.length > 0 ? (
+        items.map((item, idx) => {
           const title = item.title.replace(/<\/?b>/g, "");
           const price = formatPrice(item.price) + "원";
           const imageUrl = item.imageUrl;
@@ -149,7 +148,16 @@ const CompleteScreen = () => {
               </div>
             </ProductItem>
           );
-        })}
+        })
+      ) : (
+        <div className="empty-item-text"> 해당하는 상품이 없어요. 🥲</div>
+      );
+
+    return (
+      <ProductList>
+        <h3>{label}</h3>
+
+        {productItems}
       </ProductList>
     );
   };

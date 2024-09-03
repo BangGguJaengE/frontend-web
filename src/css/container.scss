@@ -1,4 +1,23 @@
+@keyframes flowText {
+    0% {
+      transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(-50%);
+    }
+
+  }
+  .header-container{
+    display:inline-block;
+    white-space: nowrap;
+    // overflow: hidden;
+    font-size:17px;
+    font-weight:400;
+    animation: flowText 20s linear infinite;
+  }
+
 .container {
+    // overflow:hidden;
     // max-width: 500px;
     width:40rem;
     margin: 0 auto;
@@ -51,8 +70,16 @@
     background-color:#Ffffff;
     border-radius: 16px;
     border: solid 1px transparent;
-    // justify-content: center; 
-    // align-content: center;
+}
+
+.upload-button:hover{
+    transition-duration: 500ms;
+    width: 30rem;
+    height: 18rem;
+    background-color:#Ffffff;
+    opacity:0.6;
+    border-radius: 16px;
+    border: solid 1px transparent;
 }
 
 .image-preview{
@@ -64,10 +91,10 @@
 }
 
 .input-img{
-    width: 100%;
-    height: 100%;
+    width: 30rem;
+    height: 18rem;
     border-radius: 16px;
-    object-fit: cont;
+    object-fit: cover;
 }
 
 .upload-icon-image-container{
@@ -77,6 +104,8 @@
     width: 8rem;
     height: 8rem;
 }
+
+
 
 .upload-icon-image{
     align-self:center;
@@ -94,6 +123,8 @@
     justify-content: center;
     align-items:center;
 }
+
+
 
 .inner-button-text{
 color: #fff;
@@ -199,7 +230,9 @@ font-size: 20px;
     display:flex;
     align-items: center;
     justify-content: center;
+    
 }
+
 
 
 .spinner-container {

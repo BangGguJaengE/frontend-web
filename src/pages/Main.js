@@ -24,6 +24,11 @@ const ThemeButtonContainer = styled.div`
     ${({ selected }) => (selected ? "#9775FA" : "transparent")};
   border-radius: 10px;
   margin: 1px;
+
+  &:hover {
+    transition-duration: 500ms;
+    opacity: 0.6;
+  }
 `;
 
 const LoadingScreen = styled.div`
@@ -39,19 +44,32 @@ const LoadingScreen = styled.div`
   z-index: 1000;
 `;
 
-const SpinnerContainer = styled.div`
-  height: 115px;
-  width: 100px;
-  justify-content: center;
+const GenerateButton = styled.button`
+  background-color: ${({ imgFile, prompt }) =>
+    imgFile && prompt ? "#6c48c6" : "#CED4DA"};
+  /* color: white; */
+  /* padding: 10px; */
+  /* border-radius: 5px; */
+  /* border: none; */
+  cursor: ${({ imgFile, prompt }) =>
+    imgFile && prompt ? "pointer" : "not-allowed"};
+  font-size: 16px;
+  width: 30rem;
+  height: 54px;
+  border-radius: 15px;
+  margin-top: 1em;
+  margin-bottom: 2em;
+  border: solid 1px transparent;
+  filter: drop-shadow(0 4px 20px rgba(24, 23, 37, 0.1));
+  display: flex;
   align-items: center;
-  border-radius: 10px;
-`;
+  justify-content: center;
 
-const SpinnerImageContainer = styled.div`
-  height: 60px;
-  width: 60px;
-  /* object-fit: contain; */
-  background-image: url("../img/loading-spinner1.gif");
+  &:hover {
+    opacity: ${({ imgFile, prompt }) => (imgFile && prompt ? 0.8 : 1)};
+    transition-duration: ${({ imgFile, prompt }) =>
+      imgFile && prompt ? "500ms" : "0"};
+  }
 `;
 
 const Main = () => {
@@ -69,6 +87,10 @@ const Main = () => {
     reader.onloadend = () => {
       setImgFile(reader.result);
     };
+  };
+
+  const removeImage = () => {
+    setImgFile(null);
   };
 
   const toggleTheme = (theme) => {
@@ -124,7 +146,7 @@ const Main = () => {
 
     try {
       const res = await axios.post(
-        "http://3.39.236.242:3000/api/interior/generate",
+        "http://3.39.236.242:3000/api/interior/test/generate",
         {
           img_url: imgUrl,
           prompt: `${prompt}. 나는 ${selectedTheme}한 스타일을 원해.`,
@@ -160,6 +182,31 @@ const Main = () => {
           {/* </SpinnerContainer> */}
         </LoadingScreen>
       )}
+
+      <div style={{ overflow: "hidden" }}>
+        <p className="header-container">
+          ▶︎
+          <span style={{ fontWeight: "bold", color: "#9775FA" }}>
+            빵꾸집꾸🏠
+          </span>
+          는 원래 앱으로 만들어졌어요. {"\n"}본 화면은 제품 서비스 시연을 위한
+          웹페이지에요. <span style={{ fontWeight: "bold" }}> 1.</span> 방
+          사진을 올려주세요.
+          <span style={{ fontWeight: "bold" }}> 2.</span>원하는 스타일과
+          요청사항을 입력하세요. <span style={{ fontWeight: "bold" }}> 3.</span>
+          [생성하기]버튼을 누르면 새로워진 내 방🏡을 만날 수 있어요!◀︎
+          <span> ㅤㅤㅤ</span>▶︎
+          <span style={{ fontWeight: "bold", color: "#9775FA" }}>
+            빵꾸집꾸🏠
+          </span>
+          는 원래 앱으로 만들어졌어요. {"\n"}본 화면은 제품 서비스 시연을 위한
+          웹페이지에요. <span style={{ fontWeight: "bold" }}> 1.</span> 방
+          사진을 올려주세요.
+          <span style={{ fontWeight: "bold" }}> 2.</span>원하는 스타일과
+          요청사항을 입력하세요. <span style={{ fontWeight: "bold" }}> 3.</span>
+          [생성하기]버튼을 누르면 새로워진 내 방🏡을 만날 수 있어요!◀︎
+        </p>
+      </div>
       <div className="container">
         <div className="logo-container">
           <img src={logo} alt="logo" />
@@ -197,6 +244,7 @@ const Main = () => {
               onClick={() => selectFile.current.click()}
             >
               <img className="input-img" src={imgFile} alt="Selected" />
+
               <input
                 type="file"
                 ref={selectFile}
@@ -362,15 +410,21 @@ const Main = () => {
             value={prompt}
             onChange={handlePromptInput}
           />
-          <button
+          {/* <button
             className="generate-button"
             onClick={handleGenerate}
             style={{
               backgroundColor: imgFile && prompt ? "#9775FA" : "#CED4DA",
             }}
+          > */}
+          <GenerateButton
+            onClick={handleGenerate}
+            imgFile={imgFile}
+            prompt={prompt}
           >
             <div className="inner-button-text">생성하기</div>
-          </button>
+          </GenerateButton>
+          {/* </button> */}
         </div>
       </div>
     </>
