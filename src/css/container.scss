@@ -1,4 +1,3 @@
-
 .container {
     // max-width: 500px;
     width:40rem;
@@ -62,7 +61,6 @@
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    // background-color: red;
 }
 
 .input-img{
@@ -99,7 +97,7 @@
 .inner-button-text{
 color: #fff;
 font-weight: 700;
-font-size:20px;
+font-size: 20px;
 }
 
 
@@ -132,14 +130,14 @@ font-size:20px;
     justify-content: space-between; 
 }
 
-.theme-button-container{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    filter: drop-shadow(0 4px 20px rgba(24, 23, 37, 0.1));
-    // background-color:blue;
-    margin:3px;
-}
+// .theme-button-container{
+//     display:flex;
+//     flex-direction: column;
+//     align-items: center;
+//     filter: drop-shadow(0 4px 20px rgba(24, 23, 37, 0.1));
+//     border: 2px solid ${({ selected }) => selected ? "#9775FA" : "#ffffff"};
+
+// }
 .theme-button-img-container{
     width: 7rem;
     height: 7rem;
@@ -159,20 +157,32 @@ font-size:20px;
 
 .theme-button-text{
     color:#868E96;
-    font-size:18px;
+    font-size: 1.3em;
+    font-weight: 400;
 }
 
 .text-input{
-    border-radius:16px;
-    border: solid 1px transparent;
+    width: 30rem;
     min-height: 44px;
-    width: 26rem;
-    filter: drop-shadow(0 4px 20px rgba(24, 23, 37, 0.1));
+    height:auto;
+    border: solid 1px transparent;
+    border-radius:16px;
+    filter: drop-shadow(0 4px 20px rgba(24, 23, 37, 0.05));
     margin-bottom: 2em;
-    padding:10px;
     font-size:14px;
+    padding-left:2rem;
+    padding-right:2rem;
+    padding-top:1.5rem;
+    padding-bottom:1.5rem;
     resize:none;
+    overflow: hidden; 
+    box-sizing: border-box; 
     // font-color: #C1C9D0;
+
+    &:focus,
+    &:active {
+      height: auto; /* 포커스될 때 높이 자동 조절 */
+    }
 }
 
 .text-input:focus{
@@ -180,12 +190,12 @@ font-size:20px;
 }
 
 .generate-button{
+    width: 30rem;
+    height: 54px;
     border-radius:15px;
     margin-top:1em;
     margin-bottom:2em;
     border: solid 1px transparent;
-    width: 32em;
-    height: 54px;
     background-color: #CED4DA;
     filter: drop-shadow(0 4px 20px rgba(24, 23, 37, 0.1));
     display:flex;

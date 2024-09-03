@@ -9,9 +9,21 @@ import minimalImg from "../img/minimal-img.png";
 import cozyImg from "../img/cozy-img.png";
 import colorfulImg from "../img/colorful-img.png";
 import animationImg from "../img/animation-img.png";
-import planeriorImg from "../img/planterior-img.png";
+import planteriorImg from "../img/planterior-img.png";
 import brightImg from "../img/bright-img.png";
 import axios from "axios";
+import styled from "styled-components";
+
+const ThemeButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  filter: drop-shadow(0 4px 20px rgba(24, 23, 37, 0.1));
+  border: 2.5px solid
+    ${({ selected }) => (selected ? "#9775FA" : "transparent")};
+  border-radius: 10px;
+  margin: 1px;
+`;
 
 const Main = () => {
   const selectFile = useRef("");
@@ -31,17 +43,17 @@ const Main = () => {
     light: "화사한 느낌으로 ",
   };
 
-  useEffect(() => {
-    if (selectedTheme) {
-      setPrompt((prevPrompt) => {
-        // 프롬프트가 이전에 설정한 테마와 같은 내용이면 추가하지 않음
-        const themeText = themePrompts[selectedTheme];
-        return prevPrompt.includes(themeText)
-          ? prevPrompt
-          : themeText + prevPrompt;
-      });
-    }
-  }, [selectedTheme]);
+  // useEffect(() => {
+  //   if (selectedTheme) {
+  //     setPrompt((prevPrompt) => {
+  //       // 프롬프트가 이전에 설정한 테마와 같은 내용이면 추가하지 않음
+  //       const themeText = themePrompts[selectedTheme];
+  //       return prevPrompt.includes(themeText)
+  //         ? prevPrompt
+  //         : themeText + prevPrompt;
+  //     });
+  //   }
+  // }, [selectedTheme]);
 
   const saveImgFile = () => {
     const file = selectFile.current.files[0];
@@ -50,6 +62,10 @@ const Main = () => {
     reader.onloadend = () => {
       setImgFile(reader.result);
     };
+  };
+
+  const toggleTheme = (theme) => {
+    setSelectedTheme((prevTheme) => (prevTheme === theme ? null : theme));
   };
 
   const handlePromptInput = (e) => {
@@ -106,6 +122,7 @@ const Main = () => {
           prompt: `${prompt}. 나는 ${selectedTheme}한 스타일을 원해.`,
         }
       );
+      console.log(selectedTheme);
       const response = res.data;
       console.log(response);
       navigate("/complete", { state: { response } });
@@ -170,93 +187,143 @@ const Main = () => {
 
           <div className="theme-buttons-container">
             <div className="theme-four-buttons-container">
-              <div
-                className={`theme-button-container" ${
-                  selectedTheme === "modern" ? "selected" : ""
-                }`}
-                onClick={() => setSelectedTheme("modern")}
+              <ThemeButtonContainer
+                selected={selectedTheme === "modern"}
+                onClick={() => {
+                  toggleTheme("modern");
+                }}
               >
                 <img
                   className="theme-button-img-container"
                   src={modernImg}
                   alt="modernImg"
                 />
+
                 <div className="theme-button-text-container">
                   <div className="theme-button-text">모던한</div>
                 </div>
-              </div>
-              <div className="theme-button-container">
+              </ThemeButtonContainer>
+
+              <ThemeButtonContainer
+                selected={selectedTheme === "warm"}
+                onClick={() => {
+                  toggleTheme("warm");
+                }}
+              >
                 <img
                   className="theme-button-img-container"
                   src={warmImg}
                   alt="warmImg"
                 />
+
                 <div className="theme-button-text-container">
                   <div className="theme-button-text">따뜻한</div>
                 </div>
-              </div>
-              <div className="theme-button-container">
+              </ThemeButtonContainer>
+
+              <ThemeButtonContainer
+                selected={selectedTheme === "minimal"}
+                onClick={() => {
+                  toggleTheme("minimal");
+                }}
+              >
                 <img
                   className="theme-button-img-container"
                   src={minimalImg}
                   alt="minimalImg"
                 />
+
                 <div className="theme-button-text-container">
                   <div className="theme-button-text">미니멀한</div>
                 </div>
-              </div>
-              <div className="theme-button-container">
+              </ThemeButtonContainer>
+
+              <ThemeButtonContainer
+                selected={selectedTheme === "cozy"}
+                onClick={() => {
+                  toggleTheme("cozy");
+                }}
+              >
                 <img
                   className="theme-button-img-container"
                   src={cozyImg}
                   alt="cozyImg"
                 />
+
                 <div className="theme-button-text-container">
                   <div className="theme-button-text">아늑한</div>
                 </div>
-              </div>
+              </ThemeButtonContainer>
             </div>
+
             <div className="theme-four-buttons-container">
-              <div className="theme-button-container">
+              <ThemeButtonContainer
+                selected={selectedTheme === "colorful"}
+                onClick={() => {
+                  toggleTheme("colorful");
+                }}
+              >
                 <img
                   className="theme-button-img-container"
                   src={colorfulImg}
                   alt="colorfulImg"
                 />
+
                 <div className="theme-button-text-container">
                   <div className="theme-button-text">컬러풀한</div>
                 </div>
-              </div>
-              <div className="theme-button-container">
+              </ThemeButtonContainer>
+
+              <ThemeButtonContainer
+                selected={selectedTheme === "animation"}
+                onClick={() => {
+                  toggleTheme("animation");
+                }}
+              >
                 <img
                   className="theme-button-img-container"
                   src={animationImg}
                   alt="animationImg"
                 />
+
                 <div className="theme-button-text-container">
                   <div className="theme-button-text">동화같은</div>
                 </div>
-              </div>
-              <div className="theme-button-container">
+              </ThemeButtonContainer>
+
+              <ThemeButtonContainer
+                selected={selectedTheme === "planterior"}
+                onClick={() => {
+                  toggleTheme("planterior");
+                }}
+              >
                 <img
                   className="theme-button-img-container"
-                  src={planeriorImg}
-                  alt="planeriorImg"
+                  src={planteriorImg}
+                  alt="planteriorImg"
                 />
+
                 <div className="theme-button-text-container">
                   <div className="theme-button-text">자연친화</div>
                 </div>
-              </div>
-              <div className="theme-button-container">
+              </ThemeButtonContainer>
+
+              <ThemeButtonContainer
+                selected={selectedTheme === "bright"}
+                onClick={() => {
+                  toggleTheme("bright");
+                }}
+              >
                 <img
                   className="theme-button-img-container"
                   src={brightImg}
                   alt="brightImg"
                 />
+
                 <div className="theme-button-text-container">
                   <div className="theme-button-text">화사한</div>
                 </div>
-              </div>
+              </ThemeButtonContainer>
             </div>
           </div>
           <div className="title-container">

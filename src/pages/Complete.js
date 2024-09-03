@@ -39,6 +39,7 @@ const ProductList = styled.div`
 const ProductItem = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 15px;
   padding-bottom: 15px;
   border-bottom: 1px solid #ccc;
@@ -68,14 +69,19 @@ const ProductImage = styled.img`
 `;
 
 const ProductInfo = styled.div`
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   margin-left: 15px;
+  width: 90%;
 `;
 
 const ProductName = styled.div`
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 5px;
+  width: 90%;
+  /* line-height: 1.2; */
 `;
 
 const ProductPrice = styled.div`
@@ -89,7 +95,11 @@ const DetailButton = styled.button`
   padding: 10px;
   border-radius: 20px;
   border: none;
+  width: 5rem;
+  /* height: 2rem; */
+  /* text-align: center; */
   cursor: pointer;
+  /* white-space: nowrap; */
 `;
 
 const CompleteScreen = () => {
@@ -109,26 +119,7 @@ const CompleteScreen = () => {
     return new Intl.NumberFormat("ko-KR").format(price);
   };
 
-  const products = [
-    {
-      id: 1,
-      name: "[5%쿠폰] 드레스덴 정품 조야패브릭 호텔식 침대프레임 SS/Q/K/LK/CK (패널추가)",
-      price: "199,000원",
-      imageUrl: "https://via.placeholder.com/80",
-    },
-    {
-      id: 2,
-      name: "데이지2 패브릭 침대프레임 퀸킹 검용",
-      price: "1,090,000원",
-      imageUrl: "https://via.placeholder.com/80",
-    },
-    {
-      id: 3,
-      name: "[오늘의딜] SB222 심플스타일 평상형 가족 침대 SS/Q/K",
-      price: "289,000원",
-      imageUrl: "https://via.placeholder.com/80",
-    },
-  ];
+  const products = [];
 
   const renderItems = (items, label) => {
     return (
@@ -146,32 +137,17 @@ const CompleteScreen = () => {
                 <ProductName>{title}</ProductName>
                 <ProductPrice>{price}</ProductPrice>
               </ProductInfo>
-              <DetailButton onClick={() => window.open(url, "_blank")}>
-                자세히
-              </DetailButton>
+              <div className="detailbutton-container">
+                <DetailButton onClick={() => window.open(url, "_blank")}>
+                  자세히
+                </DetailButton>
+              </div>
             </ProductItem>
           );
         })}
       </ProductList>
-
-      // <FlatListContainer>
-      //   <ListTitleContainer>
-      //     <ListTitleText>{label}</ListTitleText>
-      //   </ListTitleContainer>
-      //   <FlatList
-      //     data={items}
-      //     renderItem={renderItem}
-      //     keyExtractor={(item) => item.productUrl}
-      //   />
-      // </FlatListContainer>
     );
   };
-
-  //   const renderItem = ({ item }) => {
-  //     const title = item.title.replace(/<\/?b>/g, "");
-  //     const price = formatPrice(item.price) + "원";
-  //     const imageUrl = item.imageUrl;
-  //     const url = item.productUrl;
 
   return (
     <div className="container">
@@ -204,7 +180,6 @@ const CompleteScreen = () => {
                 }}
                 click={() => {
                   console.log("items");
-                  // console.log(el);
                   setA(renderItems(el.items, el.label));
                   handlePlusButtonClick(el.items, el.label);
                 }}
@@ -214,22 +189,6 @@ const CompleteScreen = () => {
         </ImageContainer>
       </div>
       {a}
-      {/* {selectedProducts.length > 0 && (
-        <ProductList>
-          {selectedProducts.map((product) => (
-            <ProductItem key={product.id}>
-              <ProductImage src={product.imageUrl} />
-              <ProductInfo>
-                <ProductName>{product.name}</ProductName>
-                <ProductPrice>{product.price}</ProductPrice>
-              </ProductInfo>
-              <DetailButton onClick={() => alert("자세히 클릭됨")}>
-                자세히
-              </DetailButton>
-            </ProductItem>
-          ))}
-        </ProductList>
-      )} */}
     </div>
   );
 };
