@@ -158,7 +158,9 @@ const Main = () => {
       navigate("/complete", { state: { response } });
     } catch (err) {
       console.error("Error:", err.response ? err.response.data : err.message);
-      alert("사소한 문제가 발생했어요. 다시 한 번 시도해주세요!");
+      alert(
+        "문제가 발생했어요🥲 다시 시도해주세요. (가구가 있는 공간의 사진으로 하면 좋아요.)"
+      );
     } finally {
       setIsLoading(false); // 로딩 상태 종료
     }
