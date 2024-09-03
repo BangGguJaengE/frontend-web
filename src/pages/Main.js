@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "../css/container.scss";
 import logo from "../img/home-icon.png";
+import spinner from "../img/loading-spinner1.gif";
 import uploadIcon from "../img/gallery-icon.png";
 import modernImg from "../img/modern-img.png";
 import warmImg from "../img/warm-img.png";
@@ -25,35 +26,41 @@ const ThemeButtonContainer = styled.div`
   margin: 1px;
 `;
 
+const LoadingScreen = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1000;
+`;
+
+const SpinnerContainer = styled.div`
+  height: 115px;
+  width: 100px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+`;
+
+const SpinnerImageContainer = styled.div`
+  height: 60px;
+  width: 60px;
+  /* object-fit: contain; */
+  background-image: url("../img/loading-spinner1.gif");
+`;
+
 const Main = () => {
+  const navigate = useNavigate();
   const selectFile = useRef("");
   const [imgFile, setImgFile] = useState(null);
   const [selectedTheme, setSelectedTheme] = useState(null);
   const [prompt, setPrompt] = useState("");
-  const navigate = useNavigate();
-
-  const themePrompts = {
-    modern: "모던한 스타일로 ",
-    warm: "따뜻한 느낌으로 ",
-    minimal: "미니멀한 디자인으로 ",
-    cozy: "아늑한 분위기로 ",
-    colorful: "컬러풀하게 ",
-    animation: "동화같은 스타일로 ",
-    planterior: "자연친화적인 스타일로 ",
-    light: "화사한 느낌으로 ",
-  };
-
-  // useEffect(() => {
-  //   if (selectedTheme) {
-  //     setPrompt((prevPrompt) => {
-  //       // 프롬프트가 이전에 설정한 테마와 같은 내용이면 추가하지 않음
-  //       const themeText = themePrompts[selectedTheme];
-  //       return prevPrompt.includes(themeText)
-  //         ? prevPrompt
-  //         : themeText + prevPrompt;
-  //     });
-  //   }
-  // }, [selectedTheme]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const saveImgFile = () => {
     const file = selectFile.current.files[0];
@@ -78,6 +85,7 @@ const Main = () => {
       alert("이미지를 입력하고 프롬프트를 작성해주세요.");
       return;
     }
+    setIsLoading(true); // 로딩 상태 시작
 
     const byteString = atob(imgFile.split(",")[1]);
     const mimeString = imgFile.split(",")[0].split(":")[1].split(";")[0];
@@ -116,24 +124,42 @@ const Main = () => {
 
     try {
       const res = await axios.post(
-        "http://3.39.236.242:3000/api/interior/test",
+        "http://3.39.236.242:3000/api/interior/generate",
         {
           img_url: imgUrl,
           prompt: `${prompt}. 나는 ${selectedTheme}한 스타일을 원해.`,
         }
       );
-      console.log(selectedTheme);
+      console.log(`${prompt}. 나는 ${selectedTheme}한 스타일을 원해.`);
       const response = res.data;
       console.log(response);
       navigate("/complete", { state: { response } });
     } catch (err) {
       console.error("Error:", err.response ? err.response.data : err.message);
       alert("이미지 업로드에 실패했습니다.");
+    } finally {
+      setIsLoading(false); // 로딩 상태 종료
     }
   };
 
   return (
     <>
+      {isLoading && (
+        <LoadingScreen>
+          {/* <SpinnerContainer> */}
+          {/* <SpinnerImageContainer /> */}
+          <div className="spinner-container">
+            <img className="spinner-img" src={spinner} alt="spinner" />
+            <div className="loading-text">생성 중...👀</div>
+            <div className="loading-text">
+              30초~2분 정도 걸려요. 조금만 기다려주세요!
+            </div>
+          </div>
+
+          {/* </SpinnerImageContainer> */}
+          {/* </SpinnerContainer> */}
+        </LoadingScreen>
+      )}
       <div className="container">
         <div className="logo-container">
           <img src={logo} alt="logo" />

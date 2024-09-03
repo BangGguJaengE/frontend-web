@@ -85,17 +85,20 @@ const ProductName = styled.div`
 `;
 
 const ProductPrice = styled.div`
-  font-size: 14px;
-  color: #888;
+  font-size: 16px;
+  color: #000;
+  font-weight: bold;
 `;
 
 const DetailButton = styled.button`
   background-color: #9775fa;
   color: white;
   padding: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
   border-radius: 20px;
   border: none;
-  width: 5rem;
+  width: 6rem;
   /* height: 2rem; */
   /* text-align: center; */
   cursor: pointer;
@@ -132,7 +135,9 @@ const CompleteScreen = () => {
           const url = item.productUrl;
           return (
             <ProductItem key={idx}>
-              <ProductImage src={imageUrl} alt={title} />
+              <div className="product-img-container">
+                <ProductImage src={imageUrl} alt={title} />
+              </div>
               <ProductInfo>
                 <ProductName>{title}</ProductName>
                 <ProductPrice>{price}</ProductPrice>

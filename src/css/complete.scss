@@ -1,5 +1,4 @@
 .topnav-container{
-    // background-color: blue;
     align-self:flex-end;
 }
 
@@ -13,11 +12,11 @@
   align-items: center;
   padding: 10px;}
   
+  .product-img-container{
+    width:80px;
+    height:80px;
+  }
 
-  // .detail-button-container{
-  //   width:10%
-  // }
-
-  // .product-info-container{
-  //   width:90%;
-  // }
+  h3{
+    font-size: 20px;
+  }
