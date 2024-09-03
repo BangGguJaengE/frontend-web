@@ -35,8 +35,8 @@ const LoadingScreen = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,7 +158,7 @@ const Main = () => {
       navigate("/complete", { state: { response } });
     } catch (err) {
       console.error("Error:", err.response ? err.response.data : err.message);
-      alert("이미지 업로드에 실패했습니다.");
+      alert("사소한 문제가 발생했어요. 다시 한 번 시도해주세요!");
     } finally {
       setIsLoading(false); // 로딩 상태 종료
     }
@@ -189,9 +189,9 @@ const Main = () => {
           <span style={{ fontWeight: "bold", color: "#9775FA" }}>
             빵꾸집꾸🏠
           </span>
-          는 원래 앱으로 만들어졌어요. {"\n"}본 화면은 제품 서비스 시연을 위한
-          웹페이지에요. <span style={{ fontWeight: "bold" }}> 1.</span> 방
-          사진을 올려주세요.
+          는 원래 앱으로 만들어졌어요. {"\n"}본 화면은 PC 화면에 최적화된 제품
+          시연을 위한 웹페이지에요.{" "}
+          <span style={{ fontWeight: "bold" }}> 1.</span> 방 사진을 올려주세요.
           <span style={{ fontWeight: "bold" }}> 2.</span>원하는 스타일과
           요청사항을 입력하세요. <span style={{ fontWeight: "bold" }}> 3.</span>
           [생성하기]버튼을 누르면 새로워진 내 방🏡을 만날 수 있어요!◀︎
@@ -199,9 +199,9 @@ const Main = () => {
           <span style={{ fontWeight: "bold", color: "#9775FA" }}>
             빵꾸집꾸🏠
           </span>
-          는 원래 앱으로 만들어졌어요. {"\n"}본 화면은 제품 서비스 시연을 위한
-          웹페이지에요. <span style={{ fontWeight: "bold" }}> 1.</span> 방
-          사진을 올려주세요.
+          는 원래 앱으로 만들어졌어요. {"\n"}본 화면은 PC 화면에 최적화된 제품
+          시연을 위한 웹페이지에요.{" "}
+          <span style={{ fontWeight: "bold" }}> 1.</span> 방 사진을 올려주세요.
           <span style={{ fontWeight: "bold" }}> 2.</span>원하는 스타일과
           요청사항을 입력하세요. <span style={{ fontWeight: "bold" }}> 3.</span>
           [생성하기]버튼을 누르면 새로워진 내 방🏡을 만날 수 있어요!◀︎
