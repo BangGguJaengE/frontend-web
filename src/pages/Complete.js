@@ -21,8 +21,10 @@ const CloseIcon = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
-  width: 100%;
-  height: 70%;
+  width: 40rem;
+  height: 30rem;
+  /* padding-bottom: 75% */
+  /* height: calc(width * 0.75); */
   background-image: url(${(props) => props.imageUrl});
   background-size: cover;
   background-position: center;
@@ -103,6 +105,10 @@ const CompleteScreen = () => {
     setSelectedProducts(products);
   };
 
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat("ko-KR").format(price);
+  };
+
   const products = [
     {
       id: 1,
@@ -128,20 +134,24 @@ const CompleteScreen = () => {
     return (
       <ProductList>
         <h3>{label}</h3>
-        {items.map((item, idx) => (
-          <ProductItem key={idx}>
-            <ProductImage src={item.imageUrl} alt={item.title} />
-            <ProductInfo>
-              <ProductName>{item.title}</ProductName>
-              <ProductPrice>{item.price}원</ProductPrice>
-            </ProductInfo>
-            <DetailButton
-              onClick={() => window.open(item.productUrl, "_blank")}
-            >
-              자세히
-            </DetailButton>
-          </ProductItem>
-        ))}
+        {items.map((item, idx) => {
+          const title = item.title.replace(/<\/?b>/g, "");
+          const price = formatPrice(item.price) + "원";
+          const imageUrl = item.imageUrl;
+          const url = item.productUrl;
+          return (
+            <ProductItem key={idx}>
+              <ProductImage src={imageUrl} alt={title} />
+              <ProductInfo>
+                <ProductName>{title}</ProductName>
+                <ProductPrice>{price}</ProductPrice>
+              </ProductInfo>
+              <DetailButton onClick={() => window.open(url, "_blank")}>
+                자세히
+              </DetailButton>
+            </ProductItem>
+          );
+        })}
       </ProductList>
 
       // <FlatListContainer>
@@ -188,9 +198,9 @@ const CompleteScreen = () => {
               <Plus
                 key={index}
                 style={{
-                  left: `${el.coordinate[0]}px`,
-                  top: `${el.coordinate[1] / 1.8}px`,
-                  position: "absolute",
+                  left: `${el.coordinate[0] / 16}rem`,
+                  top: `${el.coordinate[1] / 16 / 1.2}rem`,
+                  position: "relative",
                 }}
                 click={() => {
                   console.log("items");
